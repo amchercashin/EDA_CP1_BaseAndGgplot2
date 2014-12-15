@@ -1,0 +1,17 @@
+{
+    "contents" : "library(dplyr)\n\n#Create dir and download file unless alrwady done\nif (!file.exists(\"./data\")) {dir.create(\"./data\")}\nif (!file.exists(\"./data/NEIdata.zip\")) {download.file(\"https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip\"\n                                                       , \"./data/NEIdata.zip\", mode = \"wb\")}\n#Unzip unless already done\nif (!file.exists(\"./data/summarySCC_PM25.rds\")) {unzip(\"./data/NEIdata.zip\", \n                                                       files = \"summarySCC_PM25.rds\",\n                                                       exdir = \"./data\")}\nif (!file.exists(\"./data/Source_Classification_Code.rds\")) {unzip(\"./data/NEIdata.zip\", \n                                                                  files = \"Source_Classification_Code.rds\",\n                                                                  exdir = \"./data\")}                                                 \n\n#Read data\nNEI <- readRDS(\"./data/summarySCC_PM25.rds\")\nSCC <- readRDS(\"./data/Source_Classification_Code.rds\")\n\n#Aggregte emissions in Baltimore City\ntotalBal <- filter(NEI, fips == \"24510\") %>% group_by(year) %>% summarise(emissions = sum(Emissions))\n\n#Plot\npng(\"plot2.png\")\nplot(totalBal$year, totalBal$emissions/1000, ann=F)\ntitle(main = expression(\"Total PM\"[2.5]~\" emissions over 1999-2008 in Baltimore City, Maryland\"),\n      xlab = \"Year\",\n      ylab = \"Thousands of tons\"\n)\n#Add linear approximation for the clear answer\nabline(lm(emissions/1000 ~ year, data = totalBal), col = \"blue\")\ndev.off()",
+    "created" : 1418643641476.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2598140765",
+    "id" : "E2B08F28",
+    "lastKnownWriteTime" : 1418645192,
+    "path" : "~/DataScience/EDA/CourseProject2/plot2.R",
+    "project_path" : "plot2.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : true,
+    "type" : "r_source"
+}
