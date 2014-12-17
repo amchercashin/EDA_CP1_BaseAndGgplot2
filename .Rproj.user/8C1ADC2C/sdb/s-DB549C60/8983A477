@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1418814842887.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "8983A477",
+    "lastKnownWriteTime" : 30962681237012597,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "NEI_SCC",
+        "contentUrl" : "content?title=NEI_SCC&file=67fbe633614b47d29ebfdd1ffbcd6782.htm",
+        "displayedObservations" : 14,
+        "displayedVariables" : 4,
+        "totalObservations" : 14,
+        "variables" : 4
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

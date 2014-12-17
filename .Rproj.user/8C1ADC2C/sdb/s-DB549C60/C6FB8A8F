@@ -1,0 +1,17 @@
+{
+    "contents" : "motorVeh <- filter(NEI, fips == \"24510\") %>% group_by(SCC, year) %>% summarise(emissions = sum(Emissions))",
+    "created" : 1418736172060.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "2641087738",
+    "id" : "C6FB8A8F",
+    "lastKnownWriteTime" : 1418736048,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

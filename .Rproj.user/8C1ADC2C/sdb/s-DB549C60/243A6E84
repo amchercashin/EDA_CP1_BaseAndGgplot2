@@ -1,0 +1,17 @@
+{
+    "contents" : "library(dplyr)\nlibrary(ggplot2)\n\n#Create dir and download file unless alrwady done\nif (!file.exists(\"./data\")) {dir.create(\"./data\")}\nif (!file.exists(\"./data/NEIdata.zip\")) {download.file(\"https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip\"\n                                                       , \"./data/NEIdata.zip\", mode = \"wb\")}\n#Unzip unless already done\nif (!file.exists(\"./data/summarySCC_PM25.rds\")) {unzip(\"./data/NEIdata.zip\", \n                                                       files = \"summarySCC_PM25.rds\",\n                                                       exdir = \"./data\")}\nif (!file.exists(\"./data/Source_Classification_Code.rds\")) {unzip(\"./data/NEIdata.zip\", \n                                                                  files = \"Source_Classification_Code.rds\",\n                                                                  exdir = \"./data\")}                                                 \n\n#Read data\nNEI <- readRDS(\"./data/summarySCC_PM25.rds\")\nSCC <- readRDS(\"./data/Source_Classification_Code.rds\")\n\n#Join SCC descriptions with NEI\nNEI_SCC <- inner_join(NEI, SCC, by=\"SCC\")\n#Filtering only those from motor sources\nNEI_SCC <- filter(NEI_SCC, grepl(\"[Mm]otor\",NEI_SCC$SCC.Level.Three))\n#And from Bltimore\nNEI_SCC <- filter(NEI_SCC, fips == \"24510\")\n# Summarise by year adn level 3 descriptions to draw motor vehicle fires separately\nNEI_SCC <- group_by(NEI_SCC, year, SCC.Level.Three) %>% summarise(emissions = sum(Emissions))\n\n#Plot\npng(\"plot5.png\", 720, 720)\n\np <- ggplot(data = NEI_SCC, aes(x = year, y = emissions, colour = SCC.Level.Three)) +\n  geom_point() +\n  xlab(\"Year\") +\n  ylab(\"Tons\") +\n  scale_colour_discrete(name=\"Source type\", \n                      breaks = c(\"Motor Vehicle Fires\", \"Motorcycles (MC)\"),\n                      labels = c(\"Motor vehicle fires\", \"Motor vehicles\")) +\n  ggtitle(expression(\"PM\"[2.5]~\" motor vehicle related emissions over 1999-2008\")) +\n  geom_smooth(method=\"lm\", se=F)\nprint(p)\ndev.off()",
+    "created" : 1418797545128.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "44650755",
+    "id" : "243A6E84",
+    "lastKnownWriteTime" : 1418813215,
+    "path" : "~/DataScience/EDA/CourseProject2/plot5.R",
+    "project_path" : "plot5.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
